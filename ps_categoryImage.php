@@ -31,7 +31,6 @@ if (!defined('_PS_VERSION_')) {
 class Ps_categoryImage extends Module
 {
     protected $config_form = false;
-    protected $titles = array();
 
     public function __construct()
     {
@@ -161,15 +160,6 @@ class Ps_categoryImage extends Module
                 'title' => $this->trans('Título', array(), 'Admin.Global'),
                 'search' => false,
             ),
-            'position' => array(
-                'title' => $this->trans('Position'),
-                'align' => 'center',
-                'orderby' => false,
-                'search' => false,
-                'class' => 'fixed-width-md',
-                'position' => true,
-                'type' => 'zposition',
-            ),
         );
 
         if (!Configuration::get('PS_MULTISHOP_FEATURE_ACTIVE')) {
@@ -190,7 +180,8 @@ class Ps_categoryImage extends Module
         );
 
         $categories = $this->getCategoriesDisplayed();
-        
+        $categoriesDisplayed = Db::getInstance()->ExecuteS("SELECT * FROM ". _DB_PREFIX_ ."categoryImage");
+
         return $helper_list->generateList($categories, $fields_list);
     }
 
@@ -204,14 +195,14 @@ class Ps_categoryImage extends Module
 
         $categories = array();
 
-        $categoriesDisplayed = Db::getInstance()->ExecuteS("SELECT * FROM ". _DB_PREFIX_ ."categoryimage");
+        $categoriesDisplayed = Db::getInstance()->ExecuteS("SELECT * FROM ". _DB_PREFIX_ ."categoryImage");
         foreach($categoriesDisplayed as $key => $value) {
             $title;
-            $name = Db::getInstance()->ExecuteS("SELECT ". _DB_PREFIX_ ."category_lang.name FROM  ". _DB_PREFIX_ ."category_lang
+            $titleUri;
+            $name = Db::getInstance()->ExecuteS("SELECT ". _DB_PREFIX_ ."category_lang.name FROM ". _DB_PREFIX_ ."category_lang
                 WHERE id_category = ". $value['id_category'] ." AND id_shop = $id_shop AND id_lang = $id_lang");
             foreach($name as $val) {
                 $title = $val['name'];
-                array_push($this->titles, $title);
             }
             $temp = array(
                 'id_ps_categoryImage' => $value['id_ps_categoryImage'],
