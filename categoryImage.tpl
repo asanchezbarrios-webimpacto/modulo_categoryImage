@@ -1,4 +1,5 @@
 <div class="row categoryImg">
+  <h1 class="categoryImg-title">Categorías</h1>
   {foreach name=outer item=contact from=$datos}
     <div class="col-md-6 col-lg-4">
       <a href="{$link->getCategoryLink($contact.id_category)}">

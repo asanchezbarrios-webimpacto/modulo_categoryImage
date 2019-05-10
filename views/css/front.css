@@ -34,12 +34,13 @@
 .categoryImg h1 {
     text-align: center;
 }
-
 .categoryImg a{
     color: #000;
 }
-
 .categoryImg a:hover{
     color: #555252;
+}
+.categoryImg .categoryImg-title {
+    font-size: 45px;
 }
 
